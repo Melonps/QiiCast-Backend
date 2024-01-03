@@ -1,4 +1,4 @@
-
+secret.yml
 .env
 *.log
 *.pyc
