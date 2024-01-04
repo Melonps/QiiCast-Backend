@@ -12,6 +12,7 @@ weight/
 develop/
 dir_in/
 development/
+output_result/
 
 # Repo-specific GitIgnore ----------------------------------------------------------------------------------------------
 *.jpg
