@@ -5,3 +5,5 @@ requests
 pyyaml
 pprintpp
 python-dotenv
+jupyterlab
+```

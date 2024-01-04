@@ -1,6 +1,4 @@
 from qiicast_backend.lib.interact_qiita.qiita_api import request_page
-from qiicast_backend.lib.interact_qiita.result_format import format_json_to_csv
-from qiicast_backend.lib.interact_qiita.result_format import flatten
 from typing import Optional, List, Dict, Union
 import dataclasses
 import pandas as pd
@@ -85,7 +83,7 @@ class ArticleCollector:
 
         for di in self.result_json:
             dic_list.append(flatten(di, sep=sep))
-        df = pd.DataFrame.from_dict(self.result_json)
+        df = pd.DataFrame.from_dict(dic_list)
         print(df.columns)
         print(df.shape)
         print(df.tail(1))
