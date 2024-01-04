@@ -4,7 +4,6 @@ import dataclasses
 import pandas as pd
 import json
 
-
 delete_columns = [
     "rendered_body",
     "created_at",
@@ -31,12 +30,24 @@ class ArticleCollector:
     result_json: Optional[
         List[Dict[str, Union[str, int, float, List[Union[str, int, float]]]]]
     ] = None
+    """
+        Initialize the ArticleCollector.
+
+        Parameters
+        ----------
+        max_pages : int
+            The maximum number of pages to collect.
+        per_page : int
+            The number of articles per page.
+        from_date : str
+            The starting date for collecting articles.
+        to_date : str
+            The ending date for collecting articles.
+        """
 
     def collect_qiita_articles_by_date(
         self,
-    ) -> Optional[
-        List[Dict[str, Union[str, int, float, List[Union[str, int, float]]]]]
-    ]:
+    ) -> None:
         """Collects Qiita articles for a specific date from multiple pages.
 
         Returns
@@ -68,21 +79,36 @@ class ArticleCollector:
         self.result_json = all_result
 
     def preprocess_result(self):
+        """Preprocesses the collected Qiita article data by removing specified columns."""
         for article in self.result_json:
             for column in delete_columns:
                 article.pop(column, None)
 
     def save_as_json(self, result_json_path: str):
+        """Saves the preprocessed Qiita article data as a JSON file.
+
+        Parameters
+        ----------
+        result_json_path : str
+            The path to save the JSON file.
+        """
         self.preprocess_result()
         json_file = open(result_json_path, "w")
-        json.dump(result_json_path, json_file)
+        json.dump(self.result_json, json_file)
 
     def save_as_csv(self, result_csv_path: str):
+        """Saves the preprocessed Qiita article data as a CSV file.
+
+        Parameters
+        ----------
+        result_csv_path : str
+            The path to save the CSV file.
+        """
         self.preprocess_result()
         dic_list = []
 
         for di in self.result_json:
-            dic_list.append(flatten(di, sep=sep))
+            dic_list.append(flatten(result_json=di, parent_key="", sep=sep))
         df = pd.DataFrame.from_dict(dic_list)
         print(df.columns)
         print(df.shape)
@@ -91,23 +117,40 @@ class ArticleCollector:
         df.to_csv(result_csv_path, index=False)
 
 
-def flatten(result_json, parent_key="", sep="."):
+def flatten(result_json, parent_key, sep=sep):
+    """Flattens a nested dictionary or list into a flat dictionary.
+
+    Parameters
+    ----------
+    result_json : dict
+        The nested dictionary or list to be flattened.
+    parent_key : str
+        The parent key of the nested dictionary or list.
+    sep : str, optional
+        The separator used between keys, by default ".".
+
+    Returns
+    -------
+    dict
+        The flattened dictionary.
+    """
+    parent_key = ""
     items = []
     for k, v in result_json.items():
-        # 列名の生成
+        # Column name generation
         new_key = parent_key + sep + k if parent_key else k
-        # 辞書型項目のフラット化
+        # Flatten dictionary items
         if isinstance(v, dict):
             items.extend(flatten(v, new_key, sep=sep).items())
-        # リスト項目のフラット化
+        # Flatten list items
         elif isinstance(v, list):
             new_key_tmp = new_key
             for i, elm in enumerate(v):
                 new_key = new_key_tmp + sep + str(i)
-                # リストの中の辞書
+                # Dictionary within the list
                 if isinstance(elm, dict):
                     items.extend(flatten(elm, new_key, sep=sep).items())
-                # 単なるリスト
+                # Simple list
                 else:
                     items.append((new_key, elm))
         else:
