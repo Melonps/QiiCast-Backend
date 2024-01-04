@@ -4,9 +4,6 @@ import dataclasses
 import pandas as pd
 import json
 
-PER_PAGE_NUMBER = 10
-FROM_DATE = "2023-01-01"
-TO_DATE = "2023-02-01"
 
 delete_columns = [
     "rendered_body",
@@ -28,6 +25,9 @@ sep = "."
 @dataclasses.dataclass
 class ArticleCollector:
     max_pages: int
+    per_page: int
+    from_date: str
+    to_date: str
     result_json: Optional[
         List[Dict[str, Union[str, int, float, List[Union[str, int, float]]]]]
     ] = None
@@ -50,16 +50,16 @@ class ArticleCollector:
         while current_page_number < self.max_pages:
             try:
                 each_result = request_page(
-                    data_from=FROM_DATE,
-                    data_to=TO_DATE,
+                    data_from=self.from_date,
+                    data_to=self.to_date,
                     page_number=page_index,
-                    per_page=PER_PAGE_NUMBER,
+                    per_page=self.per_page,
                 )
                 if each_result == []:
                     print("No more articles for this date range.")
                     break
                 all_result.extend(each_result)
-                current_page_number += PER_PAGE_NUMBER
+                current_page_number += self.per_page
                 page_index += 1
                 print(f"PAGE {current_page_number}/{self.max_pages} DONE")
             except:
