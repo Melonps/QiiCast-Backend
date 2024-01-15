@@ -1,6 +1,7 @@
 
 
 import csv
+import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import numpy as np
@@ -78,8 +79,7 @@ plt.ylabel('Like')
 plt.legend()
 plt.show()
 
-"""
-#モデルの保存
-#52行目のtest_size=0.1→test_size=0.0
-model.save("nobo_model.h5")
-"""
+
+# モデルの保存
+with open('qiicast_backend/model/nobo_model.pkl', 'wb') as file:
+    pickle.dump(model, file)

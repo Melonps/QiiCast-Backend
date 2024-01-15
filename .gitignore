@@ -12,6 +12,7 @@ weight/
 develop/
 dir_in/
 development/
+model/
 
 # Repo-specific GitIgnore ----------------------------------------------------------------------------------------------
 *.jpg
