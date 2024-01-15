@@ -1,0 +1,15 @@
+version: '3'
+services:
+  playground:                 
+    container_name: 'QiiCast-Backend'  
+    hostname: 'python'        
+
+    build: .                 
+    shm_size: '8gb'
+    restart: always          
+    working_dir: '/app' 
+    tty: true            
+    volumes:             
+      - type: bind       
+        source: ../  
+        target: /app
