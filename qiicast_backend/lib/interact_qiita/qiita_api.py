@@ -4,7 +4,7 @@ import requests
 from typing import Optional
 
 if True:
-    SCRT = yaml.safe_load(open("./conf/secret.yml", "r"))
+    SCRT = yaml.safe_load(open("qiicast_backend/conf/secret.yml", "r"))
     API_TOKEN = SCRT["qiita_v2"]["access_token"]
 
 def request_page(tag: Optional[str]) -> None:    
