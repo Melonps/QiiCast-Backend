@@ -1,0 +1,24 @@
+{
+  "name": "common-docker",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "playground",
+  "workspaceFolder": "/app",
+  "remoteUser": "root",
+  "forwardPorts": [
+    8000
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "njpwerner.autodocstring",
+        "ms-python.black-formatter",
+        "mhutchie.git-graph",
+        "github.copilot",
+        "redhat.vscode-yaml"
+      ]
+    }
+  }
+}
