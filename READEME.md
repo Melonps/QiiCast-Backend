@@ -13,6 +13,10 @@
 - `secret.yml`
 
 ## APIの立ち上げ
+`app.py`があるディレクトリに移動してください。
+```
+cd ./qiicast_backend
+```
 以下のコマンドを使用して、FastAPIのサーバーを起動できます。
 
 ```sh
