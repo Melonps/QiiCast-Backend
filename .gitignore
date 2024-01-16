@@ -12,6 +12,7 @@ weight/
 develop/
 dir_in/
 development/
+model/
 
 # Repo-specific GitIgnore ----------------------------------------------------------------------------------------------
 *.jpg
@@ -91,7 +92,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -101,7 +101,7 @@ wheels/
 wandb/
 .installed.cfg
 *.egg
-
+conf/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
