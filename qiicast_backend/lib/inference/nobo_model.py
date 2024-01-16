@@ -1,5 +1,3 @@
-
-
 import csv
 import pickle
 from sklearn.model_selection import train_test_split
@@ -13,11 +11,12 @@ import pandas as pd
 import lightgbm as lgb
 import pickle
 
+
 class NoboModel:
     def __init__(self, model_path: str) -> None:
         """
         コンストラクタ
-        :param model_path: 保存されたLightGBMモデルのファイルパス
+        :param model_path: 保存されたリニアモデルのファイルパス
         """
         self.model_linear = pickle.load(open(model_path, "rb"))
 
@@ -34,7 +33,6 @@ class NoboModel:
             "title_length": [len(data_meta.get("title", ""))],
             "body_length": [len(data_meta.get("body", ""))],
             "comments_count": [data_meta.get("comments_count", 0)],
-            
         }
         print(data)
         return pd.DataFrame(data)
@@ -46,10 +44,5 @@ class NoboModel:
         :return: 予測結果の配列
         """
         preprocess_data = self._process_data(df_meta)
-        # LightGBMモデルで予測を行う
-        # num_iteration に best_iteration を指定して最適なラウンドでの予測を行う
-        prediction = self.model_linear.predict(
-            preprocess_data
-        )
+        prediction = self.model_linear.predict(preprocess_data)
         return prediction[0]
-
